@@ -5,15 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<title>Kanalvy</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Semi+Condensed:wght@500;600&display=swap" rel="stylesheet">
+<meta name="apple-mobile-web-app-title" content="Temppen">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#EEF1F4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0C1218" media="(prefers-color-scheme: dark)">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="apple-touch-icon.png">
+<title>Temppen</title>
 <style>
 :root{
-  --bg:#E8EDEF; --panel:#F6F8F9; --ink:#17242C; --muted:#56666F; --line:#C9D3D8;
-  --signal:#1F6F8B; --alarm:#B23A2B; --warn:#A96F0A; --ok:#2E7D5B;
-  --c1:#1F6F8B; --c2:#7A4E9A; --c3:#2E7D5B; --c4:#A96F0A; --c5:#B23A2B; --c6:#3D5A80; --c7:#8A6B3E; --c8:#4F7F86;
+  --bg:#EEF1F4; --card:#FFFFFF; --fill:#E4E8EC; --ink:#0F1A22; --muted:#66737E; --hair:rgba(15,26,34,.09);
+  --accent:#1B7FA6; --on-accent:#FFFFFF; --alarm:#D94B3D; --warn:#C98204; --ok:#23955F;
+  --c1:#1B7FA6; --c2:#7D55C7; --c3:#23955F; --c4:#C98204; --c5:#D94B3D; --c6:#3F63B5; --c7:#9C6A2E; --c8:#2E8C8C;
+  --nav:rgba(238,241,244,.82);
   color-scheme:light;
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px);
@@ -21,108 +25,166 @@
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#0F171C; --panel:#17222A; --ink:#E2E9ED; --muted:#91A1AA; --line:#2B3A43;
-    --signal:#5BB4D3; --alarm:#E66B58; --warn:#E3A83F; --ok:#5DC093;
-    --c1:#5BB4D3; --c2:#B48AD6; --c3:#5DC093; --c4:#E3A83F; --c5:#E66B58; --c6:#8DA9D4; --c7:#CFAE7C; --c8:#7FC1C9;
+    --bg:#0C1218; --card:#151D25; --fill:#1F2933; --ink:#E8EEF2; --muted:#8F9CA7; --hair:rgba(232,238,242,.08);
+    --accent:#5BBCE4; --on-accent:#08202B; --alarm:#FF6B5E; --warn:#F2B13C; --ok:#4CCB8C;
+    --c1:#5BBCE4; --c2:#B193F0; --c3:#4CCB8C; --c4:#F2B13C; --c5:#FF6B5E; --c6:#8AA6F0; --c7:#D9A867; --c8:#6FCFCF;
+    --nav:rgba(12,18,24,.82);
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-    --bg:#0F171C; --panel:#17222A; --ink:#E2E9ED; --muted:#91A1AA; --line:#2B3A43;
-    --signal:#5BB4D3; --alarm:#E66B58; --warn:#E3A83F; --ok:#5DC093;
-    --c1:#5BB4D3; --c2:#B48AD6; --c3:#5DC093; --c4:#E3A83F; --c5:#E66B58; --c6:#8DA9D4; --c7:#CFAE7C; --c8:#7FC1C9;
-    color-scheme:dark;
-  }
+  --bg:#0C1218; --card:#151D25; --fill:#1F2933; --ink:#E8EEF2; --muted:#8F9CA7; --hair:rgba(232,238,242,.08);
+  --accent:#5BBCE4; --on-accent:#08202B; --alarm:#FF6B5E; --warn:#F2B13C; --ok:#4CCB8C;
+  --c1:#5BBCE4; --c2:#B193F0; --c3:#4CCB8C; --c4:#F2B13C; --c5:#FF6B5E; --c6:#8AA6F0; --c7:#D9A867; --c8:#6FCFCF;
+  --nav:rgba(12,18,24,.82);
+  color-scheme:dark;
+}
 *,*::before,*::after{box-sizing:inherit}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.45 Barlow,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-text-size-adjust:100%}
-.num{font-family:"Barlow Semi Condensed",Barlow,"Arial Narrow",sans-serif;font-variant-numeric:tabular-nums}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.4 -apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-text-size-adjust:100%;overscroll-behavior-y:none}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--nav);-webkit-backdrop-filter:saturate(1.8) blur(20px);backdrop-filter:saturate(1.8) blur(20px)}
+.num{font-family:ui-rounded,"SF Pro Rounded",-apple-system,system-ui,"Segoe UI",Roboto,sans-serif;font-variant-numeric:tabular-nums}
 button,input,select{font:inherit;color:inherit}
-button{cursor:pointer}
-:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
-.wrap{max-width:980px;margin:0 auto;padding:12px 16px 40px}
-header.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--line);margin-bottom:14px}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
-header.bar h1{font-size:1.35rem;font-weight:600;margin:0;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.btn{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:7px 12px;min-height:38px}
-.btn.primary{background:var(--signal);border-color:var(--signal);color:#fff}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn.primary{color:#0F171C}}
-:root[data-theme="dark"] .btn.primary{color:#0F171C}
-.btn.ghost{background:transparent;border-color:transparent}
-.btn.danger{color:var(--alarm);border-color:var(--alarm);background:transparent}
-.icon{width:38px;padding:0;display:inline-grid;place-items:center}
-.muted{color:var(--muted)}
-.small{font-size:.86rem}
+button{cursor:pointer;-webkit-user-select:none;user-select:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wrap{max-width:640px;margin:0 auto;padding:0 16px 110px}
 
-/* Kanallista */
-.chlist{display:grid;gap:10px}
-.chrow{display:block;width:100%;text-align:left;background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--signal);border-radius:6px;padding:12px 14px}
-.chrow.stale{border-left-color:var(--warn)}
-.chrow.alarm{border-left-color:var(--alarm)}
-.chrow .top{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
-.chrow .name{font-weight:600;font-size:1.08rem}
-.chrow .vals{display:flex;flex-wrap:wrap;gap:4px 18px;margin-top:6px}
-.chrow .vals span b{font-size:1.25rem;font-weight:600}
-.addbox{background:var(--panel);border:1px dashed var(--line);border-radius:6px;padding:14px;margin-top:16px}
-.addbox h2{font-size:1.05rem;margin:0 0 10px}
-.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
-label.f{display:grid;gap:3px;font-size:.88rem;color:var(--muted)}
-label.f input,label.f select{color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:8px 10px;min-height:40px;width:100%}
-.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
-.err{color:var(--alarm);margin:8px 0 0}
+/* navigeringsfält */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;margin:0 -16px;padding:6px 8px;display:flex;align-items:center;gap:4px;min-height:48px;background:var(--nav);-webkit-backdrop-filter:saturate(1.8) blur(20px);backdrop-filter:saturate(1.8) blur(20px);border-bottom:1px solid transparent;transition:border-color .2s}
+.nav.scrolled{border-bottom-color:var(--hair)}
+.nav .mid{flex:1;text-align:center;font-weight:600;font-size:17px;opacity:0;transition:opacity .2s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nav.scrolled .mid{opacity:1}
+.navbtn{border:0;background:transparent;color:var(--accent);min-width:44px;height:44px;border-radius:22px;display:inline-flex;align-items:center;justify-content:center;gap:2px;padding:0 8px;font-size:17px}
+.navbtn:active{opacity:.45}
+.navbtn.spin svg{animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.side{display:flex;min-width:96px}
+.side.r{justify-content:flex-end}
+h1.large{font-size:34px;line-height:1.1;font-weight:700;letter-spacing:-.02em;margin:4px 0 4px}
+.sub{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:15px;margin-bottom:18px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--ok);flex:none}
+.dot.warn{background:var(--warn)} .dot.alarm{background:var(--alarm)} .dot.idle{background:var(--muted)}
 
-/* Kanalvy */
-.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px}
-.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--panel)}
-.seg button{border:0;background:transparent;padding:7px 12px;min-height:38px;border-right:1px solid var(--line)}
-.seg button:last-child{border-right:0}
-.seg button[aria-pressed="true"]{background:var(--signal);color:#fff}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .seg button[aria-pressed="true"]{color:#0F171C}}
-:root[data-theme="dark"] .seg button[aria-pressed="true"]{color:#0F171C}
-.controls select{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:7px 10px;min-height:38px}
-.custom{display:none;gap:8px;flex-wrap:wrap;width:100%}
-.custom.on{display:flex}
-.custom input{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:6px 8px;min-height:38px}
+/* kanallista */
+.ccard{display:block;width:100%;text-align:left;border:0;background:var(--card);border-radius:22px;padding:16px 18px 14px;margin-bottom:12px;transition:transform .12s}
+.ccard:active{transform:scale(.98)}
+.ccard .t{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.ccard .t b{font-size:17px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ccard .t span{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:14px;flex:none}
+.ccard .main{font-size:46px;font-weight:600;letter-spacing:-.03em;line-height:1.05;margin:8px 0 2px}
+.ccard .main small{font-size:22px;font-weight:500;color:var(--muted);margin-left:2px;letter-spacing:0}
+.ccard .main.alarm{color:var(--alarm)}
+.ccard .ml{color:var(--muted);font-size:14px}
+.ccard .rest{display:flex;flex-wrap:wrap;gap:4px 18px;margin-top:10px;padding-top:10px;border-top:1px solid var(--hair);font-size:15px}
+.ccard .rest span{color:var(--muted)} .ccard .rest b{color:var(--ink);font-weight:600}
+.ccard .rest b.alarm{color:var(--alarm)}
+.ccard .errline{color:var(--alarm);font-size:14px;margin-top:8px}
+.fab{position:fixed;right:max(20px,calc(50vw - 300px));bottom:calc(22px + env(safe-area-inset-bottom,0px));width:58px;height:58px;border-radius:29px;border:0;background:var(--accent);color:var(--on-accent);display:grid;place-items:center;box-shadow:0 6px 18px rgba(15,26,34,.22);z-index:6;transition:transform .12s}
+.fab:active{transform:scale(.92)}
+.empty{text-align:center;padding:60px 20px 20px;color:var(--muted)}
+.empty svg{color:var(--accent);margin-bottom:12px}
+.empty h2{color:var(--ink);font-size:22px;margin:0 0 6px}
+.empty p{margin:0 auto 22px;max-width:30ch}
+.pill{border:0;border-radius:14px;padding:13px 22px;font-weight:600;font-size:17px;background:var(--accent);color:var(--on-accent);min-height:50px}
+.pill.soft{background:var(--fill);color:var(--accent)}
+.pill:active{opacity:.7}
+.pill.block{width:100%}
 
-.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:18px}
-.tile{background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--fc,var(--signal));border-radius:4px;padding:10px 12px 9px;position:relative}
-.tile.alarm{background:color-mix(in srgb,var(--alarm) 10%,var(--panel));border-color:var(--alarm);border-top-color:var(--alarm)}
-.tile .lab{font-size:.88rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tile .big{font-size:2.15rem;line-height:1.05;font-weight:600;margin:2px 0}
-.tile .big small{font-size:1rem;font-weight:500;color:var(--muted);margin-left:3px}
-.tile .meta{font-size:.82rem;color:var(--muted);display:flex;justify-content:space-between;gap:6px}
-.trend-up{color:var(--ink)} .trend-down{color:var(--ink)}
-.stalenote{background:color-mix(in srgb,var(--warn) 14%,var(--panel));border:1px solid var(--warn);border-radius:6px;padding:8px 12px;margin-bottom:12px}
+/* kanalvy: huvudkort */
+.hero{background:var(--card);border-radius:26px;padding:20px 20px 6px;margin-bottom:20px}
+.hero .lab{font-size:15px;color:var(--muted);font-weight:500}
+.hero .big{font-size:76px;font-weight:600;letter-spacing:-.04em;line-height:1;margin:6px 0 8px;display:flex;align-items:flex-start}
+.hero .big small{font-size:30px;font-weight:500;letter-spacing:0;color:var(--muted);margin:8px 0 0 4px}
+.hero .big.alarm{color:var(--alarm)}
+.hero .chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.chip{display:inline-flex;align-items:center;gap:4px;font-size:14px;font-weight:500;padding:4px 10px;border-radius:999px;background:var(--fill);color:var(--muted)}
+.chip.alarm{background:color-mix(in srgb,var(--alarm) 16%,transparent);color:var(--alarm)}
+.hero .row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 0;border-top:1px solid var(--hair)}
+.hero .row .l{display:flex;align-items:center;gap:10px;min-width:0}
+.hero .row .l i{width:10px;height:10px;border-radius:3px;background:var(--fc);flex:none}
+.hero .row .l span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hero .row .v{text-align:right;flex:none}
+.hero .row .v b{font-size:22px;font-weight:600}
+.hero .row .v small{color:var(--muted);font-size:15px;margin-left:2px}
+.hero .row .v em{display:block;font-style:normal;font-size:13px;color:var(--muted)}
+.hero .row.alarm .v b,.hero .row.alarm .v em{color:var(--alarm)}
+.banner{display:flex;gap:10px;align-items:flex-start;background:color-mix(in srgb,var(--warn) 15%,var(--card));color:var(--ink);border-radius:16px;padding:12px 14px;margin-bottom:16px;font-size:15px}
+.banner svg{color:var(--warn);flex:none;margin-top:1px}
 
-.chart{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:10px 10px 6px;margin-bottom:12px}
-.chart .head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 12px;align-items:baseline;padding:0 4px 4px}
-.chart .head h3{margin:0;font-size:1.02rem;font-weight:600;display:flex;align-items:center;gap:8px}
-.chart .head h3 i{width:10px;height:10px;border-radius:2px;background:var(--fc);display:inline-block}
-.chart .stats{font-size:.85rem;color:var(--muted)}
-.chart .stats b{color:var(--ink);font-weight:600}
-.plot{position:relative;touch-action:pan-y;user-select:none;-webkit-user-select:none}
-.plot svg{display:block;width:100%}
-.plot .tip{position:absolute;top:2px;pointer-events:none;background:var(--ink);color:var(--bg);font-size:.82rem;padding:3px 7px;border-radius:4px;white-space:nowrap;display:none}
-.empty{color:var(--muted);padding:24px 6px;margin:0}
-.axis{fill:var(--muted);font-size:11px;font-family:"Barlow Semi Condensed",Barlow,sans-serif}
-.foot{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
-.loading{color:var(--muted);padding:20px 0}
+/* segmentkontroll */
+.segwrap{position:sticky;top:calc(env(safe-area-inset-top,0px) + 48px);z-index:4;margin:0 -16px 14px;padding:6px 16px 8px;background:var(--nav);-webkit-backdrop-filter:saturate(1.8) blur(20px);backdrop-filter:saturate(1.8) blur(20px)}
+.seg{position:relative;display:grid;grid-template-columns:repeat(5,1fr);background:var(--fill);border-radius:11px;padding:2px}
+.seg .thumb{position:absolute;top:2px;bottom:2px;left:2px;width:calc((100% - 4px)/5);background:var(--card);border-radius:9px;box-shadow:0 2px 6px rgba(15,26,34,.12);transition:transform .25s cubic-bezier(.3,.7,.3,1)}
+.seg button{position:relative;border:0;background:transparent;height:34px;font-size:14px;font-weight:500;z-index:1}
+.seg button[aria-pressed="true"]{font-weight:600}
+.subctl{display:flex;justify-content:space-between;align-items:center;margin-top:8px;gap:8px}
+.selpill{position:relative;display:inline-flex;align-items:center;gap:4px;color:var(--accent);font-size:15px;font-weight:500}
+.selpill select{position:absolute;inset:0;opacity:0;width:100%;font-size:16px}
+.custom{display:none;gap:10px;margin-top:8px;align-items:end}
+.custom.on{display:grid;grid-template-columns:1fr 1fr auto}
+.custom label{display:grid;gap:3px;font-size:13px;color:var(--muted)}
+.custom input{background:var(--card);border:0;border-radius:10px;padding:8px;min-height:38px;width:100%;font-size:15px}
+.custom .go{border:0;background:var(--accent);color:var(--on-accent);border-radius:10px;min-height:38px;padding:0 14px;font-weight:600}
 
-dialog{border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink);padding:0;width:min(640px,calc(100vw - 20px));max-height:calc(100vh - 40px)}
-dialog::backdrop{background:rgba(10,18,22,.45)}
-.dlg{padding:16px}
-.dlg h2{margin:0 0 12px;font-size:1.2rem}
-.fieldset{border-top:1px solid var(--line);padding-top:12px;margin-top:14px}
-.frow{display:grid;grid-template-columns:auto 1fr;gap:6px 10px;align-items:start;padding:10px 0;border-bottom:1px solid var(--line)}
-.frow .fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:8px}
-.frow input[type=checkbox]{width:20px;height:20px;margin-top:22px;accent-color:var(--signal)}
-.dlg .actions{display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;margin-top:16px}
-@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+/* grafer */
+.chart{background:var(--card);border-radius:22px;padding:16px 14px 10px;margin-bottom:14px}
+.chart h3{margin:0 4px 10px;font-size:17px;font-weight:600;display:flex;align-items:center;gap:8px}
+.chart h3 i{width:10px;height:10px;border-radius:3px;background:var(--fc)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:0 4px 8px}
+.stats div{font-size:13px;color:var(--muted)}
+.stats b{display:block;font-size:19px;font-weight:600;color:var(--ink)}
+.plot{position:relative;touch-action:pan-y;-webkit-user-select:none;user-select:none}
+.plot svg{display:block;width:100%;overflow:visible}
+.tip{position:absolute;top:-4px;pointer-events:none;background:var(--ink);color:var(--card);font-size:13px;line-height:1.25;padding:5px 9px;border-radius:9px;white-space:nowrap;display:none;text-align:center}
+.tip b{font-size:15px}
+.axis{fill:var(--muted);font-size:11px;font-family:-apple-system,system-ui,sans-serif}
+.nodata{color:var(--muted);text-align:center;padding:28px 0;margin:0;font-size:15px}
+.loading{display:flex;justify-content:center;padding:40px 0;color:var(--muted)}
+.loading svg{animation:spin .8s linear infinite}
+.err{color:var(--alarm);font-size:15px;margin:8px 0}
+.foot{color:var(--muted);font-size:13px;text-align:center;margin-top:6px}
+
+/* dra för att uppdatera */
+.ptr{position:fixed;left:50%;top:calc(env(safe-area-inset-top,0px) + 56px);width:36px;height:36px;margin-left:-18px;border-radius:18px;background:var(--card);box-shadow:0 2px 10px rgba(15,26,34,.15);display:grid;place-items:center;color:var(--muted);opacity:0;z-index:7;pointer-events:none;transform:translateY(-30px)}
+.ptr.ready{color:var(--accent)}
+.ptr.busy{opacity:1;transform:translateY(0);color:var(--accent);transition:transform .2s,opacity .2s}
+.ptr.busy svg{animation:spin .8s linear infinite}
+
+/* bottenark */
+dialog{border:0;padding:0;margin:auto auto 0;width:100%;max-width:640px;max-height:92vh;background:var(--bg);color:var(--ink);border-radius:22px 22px 0 0;overflow:auto;overscroll-behavior:contain}
+dialog[open]{animation:sheet .32s cubic-bezier(.2,.8,.2,1)}
+@keyframes sheet{from{transform:translateY(100%)}to{transform:none}}
+dialog::backdrop{background:rgba(5,10,14,.4)}
+.sheet{padding:8px 16px calc(24px + env(safe-area-inset-bottom,0px))}
+.grab{width:38px;height:5px;border-radius:3px;background:var(--hair);margin:0 auto 6px;background:color-mix(in srgb,var(--muted) 45%,transparent)}
+.shead{display:flex;align-items:center;justify-content:space-between;min-height:44px;margin-bottom:6px}
+.shead h2{font-size:17px;margin:0;font-weight:600;flex:1;text-align:center}
+.shead .navbtn{min-width:72px}
+.shead .navbtn.done{font-weight:600}
+.ghead{font-size:13px;color:var(--muted);margin:18px 16px 6px}
+.gnote{font-size:13px;color:var(--muted);margin:6px 16px 0}
+.group{background:var(--card);border-radius:14px;overflow:hidden}
+.grow{display:flex;align-items:center;gap:12px;min-height:48px;padding:0 16px;position:relative}
+.grow + .grow::before{content:"";position:absolute;top:0;left:16px;right:0;border-top:1px solid var(--hair)}
+.grow label,.grow > span{flex:1;min-width:0}
+.grow input:not([type=checkbox]),.grow select{flex:1.2;min-width:0;border:0;background:transparent;text-align:right;padding:12px 0;font-size:17px;color:var(--ink)}
+.grow input::placeholder{color:var(--muted);opacity:.7}
+.grow.btnrow{justify-content:center;color:var(--accent);border:0;background:transparent;width:100%;font-size:17px}
+.grow.btnrow.danger{color:var(--alarm)}
+.grow.btnrow:active{background:var(--fill)}
+.switch{appearance:none;-webkit-appearance:none;width:51px;height:31px;border-radius:16px;background:var(--fill);position:relative;flex:none;margin:0;cursor:pointer;transition:background .2s}
+.switch::after{content:"";position:absolute;top:2px;left:2px;width:27px;height:27px;border-radius:50%;background:#fff;box-shadow:0 2px 4px rgba(0,0,0,.2);transition:transform .2s}
+.switch:checked{background:var(--ok)}
+.switch:checked::after{transform:translateX(20px)}
+.ftitle{display:flex;align-items:center;gap:8px}
+.ftitle i{width:10px;height:10px;border-radius:3px;background:var(--fc)}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
+<div class="ptr" id="ptr" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M21 12a9 9 0 1 1-2.6-6.4M21 3v6h-6"/></svg></div>
 <div class="wrap" id="app"></div>
-<dialog id="dlg"><div class="dlg" id="dlgBody"></div></dialog>
+<dialog id="dlg"><div class="sheet" id="dlgBody"></div></dialog>
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
 <script>
@@ -132,14 +194,26 @@ const API = 'https://api.thingspeak.com';
 const LS = 'kanalvy.v1';
 const TZ = (Intl.DateTimeFormat().resolvedOptions().timeZone) || 'Europe/Helsinki';
 const RANGES = [['1h','1 h',3600e3],['24h','24 h',864e5],['7d','7 d',7*864e5],['30d','30 d',30*864e5],['custom','Eget',0]];
-const AVGS = [['','Alla punkter'],['10','Medel 10 min'],['60','Medel 1 h'],['240','Medel 4 h'],['1440','Medel per dygn']];
+const AVGS = [['','Alla mätpunkter'],['10','Medel per 10 min'],['60','Medel per timme'],['240','Medel per 4 h'],['1440','Medel per dygn']];
 const app = document.getElementById('app');
 const dlg = document.getElementById('dlg');
 const dlgBody = document.getElementById('dlgBody');
+const ptr = document.getElementById('ptr');
+
+const I = {
+  back: '<svg width="13" height="22" viewBox="0 0 13 22" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M11 2L2 11l9 9"/></svg>',
+  refresh: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M21 12a9 9 0 1 1-2.6-6.4M21 3v6h-6"/></svg>',
+  gear: '<svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>',
+  sliders: '<svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2.2"/><circle cx="9" cy="17" r="2.2"/></svg>',
+  plus: '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
+  chev: '<svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M2 3.5l3 3 3-3"/></svg>',
+  warn: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 3l10 18H2L12 3z"/><path d="M12 10v5M12 18v.5"/></svg>',
+  wave: '<svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16l4-5 4 3 4-7 6 5"/><path d="M3 21h18"/></svg>'
+};
 
 let store = { channels: [], refresh: 0 };
-let view = { ch: null, range: '24h', avg: '', cStart: '', cEnd: '', data: null, latest: null, loadedAt: null };
-let timer = null, resizeT = null, reqSeq = 0;
+let view = { ch: null, range: '24h', avg: '', cStart: '', cEnd: '', data: null, latest: null, loadedAt: null, bounds: null };
+let timer = null, resizeT = null, reqSeq = 0, busy = false;
 
 /* ---------- lagring ---------- */
 function load(){
@@ -177,6 +251,14 @@ function decOf(ch, n, vals){
 }
 function isAlarm(ch, n, v){ const f = fcfg(ch, n); return v != null && ((f.min != null && v < f.min) || (f.max != null && v > f.max)); }
 function activeFields(meta){ const r = []; for(let i = 1; i <= 8; i++) if(meta && meta['field'+i] != null && meta['field'+i] !== '') r.push(i); return r.length ? r : [1]; }
+const colorOf = n => `var(--c${((n-1)%8)+1})`;
+function unitHtml(u){ return u ? '<small>' + esc(u) + '</small>' : ''; }
+function trendOf(cur, prev, d){
+  if(!cur || !prev) return '';
+  const diff = cur.v - prev.v, eps = Math.pow(10, -d) / 2;
+  if(Math.abs(diff) < eps) return '→ oförändrat';
+  return (diff > 0 ? '↑ ' : '↓ ') + nf(Math.abs(diff), d);
+}
 
 /* ---------- API ---------- */
 async function getJSON(url){
@@ -227,118 +309,154 @@ function route(){
   const h = location.hash.replace(/^#/, '');
   if(h.startsWith('ch')){
     const ch = chById(h.slice(2));
-    if(ch){ if(!view.ch || view.ch.id !== ch.id){ view.data = null; view.latest = null; } view.ch = ch; renderChannel(); startTimer(); return; }
+    if(ch){ if(!view.ch || view.ch.id !== ch.id){ view.data = null; view.latest = null; } view.ch = ch; renderChannel(); startTimer(); window.scrollTo(0, 0); return; }
   }
-  view.ch = null; renderList(); startTimer();
+  view.ch = null; renderList(); startTimer(); window.scrollTo(0, 0);
 }
 function startTimer(){
-  if(store.refresh > 0) timer = setInterval(() => { view.ch ? loadChannel(true) : loadListValues(); }, store.refresh * 60e3);
+  if(store.refresh > 0) timer = setInterval(refreshNow, store.refresh * 60e3);
 }
+async function refreshNow(){
+  if(busy) return;
+  busy = true;
+  const rb = document.getElementById('rbtn'); if(rb) rb.classList.add('spin');
+  try{ await (view.ch ? loadChannel(true) : loadListValues()); }
+  finally{ busy = false; const r2 = document.getElementById('rbtn'); if(r2) r2.classList.remove('spin'); }
+}
+function navScroll(){ const n = document.querySelector('.nav'); if(n) n.classList.toggle('scrolled', window.scrollY > 40); }
+window.addEventListener('scroll', navScroll, {passive:true});
 
 /* ---------- kanallista ---------- */
 function renderList(){
-  document.title = 'Kanalvy';
-  const rows = store.channels.map(c => `
-    <button class="chrow" data-open="${esc(c.id)}" id="row-${esc(c.id)}">
-      <div class="top"><span class="name">${esc(c.name || ('Kanal ' + c.id))}</span><span class="muted small age">Hämtar …</span></div>
-      <div class="vals num"></div>
+  document.title = 'Temppen';
+  const cards = store.channels.map(c => `
+    <button class="ccard" data-open="${esc(c.id)}" id="row-${esc(c.id)}">
+      <div class="t"><b>${esc(c.name || ('Kanal ' + c.id))}</b><span><i class="dot idle"></i><em class="age" style="font-style:normal">Hämtar …</em></span></div>
+      <div class="body"></div>
     </button>`).join('');
   app.innerHTML = `
-    <header class="bar"><h1>Kanaler</h1>
-      <button class="btn icon ghost" id="gset" aria-label="Inställningar" title="Inställningar">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
-      </button>
-    </header>
-    ${store.channels.length ? `<div class="chlist">${rows}</div>` : `<p class="muted">Inga kanaler ännu. Lägg till en ThingSpeak-kanal nedan, eller prova med den publika testkanalen 9.</p>`}
-    <form class="addbox" id="addForm" autocomplete="off">
-      <h2>Lägg till kanal</h2>
-      <div class="grid2">
-        <label class="f">Kanal-ID<input name="id" inputmode="numeric" required placeholder="t.ex. 9"></label>
-        <label class="f">Read API Key (bara privata)<input name="key" placeholder="valfritt"></label>
-        <label class="f">Eget namn<input name="name" placeholder="valfritt"></label>
-      </div>
-      <div class="row"><button class="btn primary" type="submit">Lägg till kanal</button>${store.channels.length ? '' : '<button class="btn" type="button" id="demo">Prova kanal 9</button>'}</div>
-      <p class="err" id="addErr" hidden></p>
-    </form>`;
+    <div class="nav"><div class="side"></div><div class="mid">Kanaler</div><div class="side r">
+      <button class="navbtn" id="rbtn" aria-label="Uppdatera">${I.refresh}</button>
+      <button class="navbtn" id="gset" aria-label="Inställningar">${I.gear}</button></div></div>
+    <h1 class="large">Kanaler</h1>
+    <div style="height:10px"></div>
+    ${store.channels.length ? cards : `
+      <div class="empty">${I.wave}
+        <h2>Inga kanaler ännu</h2>
+        <p>Lägg till en ThingSpeak-kanal för att se dess mätvärden här.</p>
+        <button class="pill" id="addEmpty">Lägg till kanal</button>
+        <div style="height:10px"></div>
+        <button class="pill soft" id="demo">Prova med testkanal 9</button>
+      </div>`}
+    ${store.channels.length ? `<button class="fab" id="fab" aria-label="Lägg till kanal">${I.plus}</button>` : ''}`;
   app.querySelectorAll('[data-open]').forEach(b => b.onclick = () => { location.hash = 'ch' + b.dataset.open; });
   document.getElementById('gset').onclick = openGlobalSettings;
-  document.getElementById('addForm').onsubmit = e => { e.preventDefault(); const fd = new FormData(e.target); addChannel(fd.get('id'), fd.get('key'), fd.get('name')); };
-  const demo = document.getElementById('demo'); if(demo) demo.onclick = () => addChannel('9', '', '');
+  document.getElementById('rbtn').onclick = refreshNow;
+  const fab = document.getElementById('fab'); if(fab) fab.onclick = openAddSheet;
+  const ae = document.getElementById('addEmpty'); if(ae) ae.onclick = openAddSheet;
+  const demo = document.getElementById('demo'); if(demo) demo.onclick = () => addChannel('9', '', '', null);
+  navScroll();
   loadListValues();
 }
-async function addChannel(id, key, name){
-  const err = document.getElementById('addErr');
+function openAddSheet(){
+  dlgBody.innerHTML = `<div class="grab"></div>
+    <div class="shead"><button class="navbtn" id="aCancel">Avbryt</button><h2>Ny kanal</h2><button class="navbtn done" id="aSave">Lägg till</button></div>
+    <div class="group">
+      <div class="grow"><span>Kanal-ID</span><input id="aId" inputmode="numeric" placeholder="t.ex. 9" autocomplete="off"></div>
+      <div class="grow"><span>Namn</span><input id="aName" placeholder="Valfritt" autocomplete="off"></div>
+      <div class="grow"><span>Läsnyckel</span><input id="aKey" placeholder="Bara privata" autocomplete="off" autocapitalize="characters" spellcheck="false"></div>
+    </div>
+    <p class="gnote">Läsnyckeln heter Read API Key i ThingSpeak och behövs bara för privata kanaler.</p>
+    <p class="err" id="aErr" hidden></p>`;
+  openSheet();
+  document.getElementById('aCancel').onclick = () => dlg.close();
+  document.getElementById('aSave').onclick = () => addChannel(document.getElementById('aId').value, document.getElementById('aKey').value, document.getElementById('aName').value, document.getElementById('aErr'));
+}
+async function addChannel(id, key, name, errEl){
+  const fail = m => { if(errEl){ errEl.textContent = m; errEl.hidden = false; } else alert(m); };
   id = String(id || '').trim(); key = String(key || '').trim(); name = String(name || '').trim();
-  if(!/^\d+$/.test(id)){ err.textContent = 'Kanal-ID ska vara ett nummer.'; err.hidden = false; return; }
-  if(chById(id)){ err.textContent = 'Kanalen finns redan i listan.'; err.hidden = false; return; }
+  if(!/^\d+$/.test(id)) return fail('Kanal-ID ska vara ett nummer.');
+  if(chById(id)) return fail('Kanalen finns redan i listan.');
   const ch = { id, key, name, fields: {}, staleMin: 60 };
   try{
     const j = await fetchLatest(ch);
     if(!name && j.channel && j.channel.name) ch.name = j.channel.name;
-  }catch(e){ err.textContent = e.message; err.hidden = false; return; }
-  store.channels.push(ch); save(); renderList();
+  }catch(e){ return fail(e.message); }
+  store.channels.push(ch); save();
+  if(dlg.open) dlg.close();
+  renderList();
 }
-async function loadListValues(){
-  for(const ch of store.channels){
-    const row = document.getElementById('row-' + ch.id); if(!row) continue;
-    fetchLatest(ch).then(j => {
+function loadListValues(){
+  return Promise.all(store.channels.map(ch => {
+    const row = document.getElementById('row-' + ch.id); if(!row) return null;
+    return fetchLatest(ch).then(j => {
       const meta = j.channel, feeds = j.feeds || [];
       const nums = activeFields(meta).filter(n => !fcfg(ch, n).hidden);
       let newest = null, alarm = false;
-      const parts = nums.map(n => {
-        const { cur } = lastTwo(feeds, n);
+      const vals = nums.map(n => {
+        const { cur } = lastTwo(feeds, n), f = fcfg(ch, n);
         if(cur && (newest == null || cur.t > newest)) newest = cur.t;
-        if(cur && isAlarm(ch, n, cur.v)) alarm = true;
-        const f = fcfg(ch, n);
-        return `<span><span class="muted small">${esc(fieldLabel(ch, n, meta))}</span> <b>${cur ? nf(cur.v, decOf(ch, n, [cur.v])) : '–'}</b>${f.unit ? ' <span class="muted small">' + esc(f.unit) + '</span>' : ''}</span>`;
+        const a = cur && isAlarm(ch, n, cur.v); if(a) alarm = true;
+        return { n, cur, a, f, label: fieldLabel(ch, n, meta), d: decOf(ch, n, [cur && cur.v]) };
       });
-      row.querySelector('.vals').innerHTML = parts.join('');
+      const [first, ...rest] = vals;
+      let html = '';
+      if(first){
+        html += `<div class="main num ${first.a ? 'alarm' : ''}">${first.cur ? nf(first.cur.v, first.d) : '–'}${unitHtml(first.f.unit)}</div><div class="ml">${esc(first.label)}</div>`;
+      }
+      if(rest.length){
+        html += '<div class="rest">' + rest.map(x => `<span>${esc(x.label)} <b class="num ${x.a ? 'alarm' : ''}">${x.cur ? nf(x.cur.v, x.d) : '–'}${x.f.unit ? ' ' + esc(x.f.unit) : ''}</b></span>`).join('') + '</div>';
+      }
+      row.querySelector('.body').innerHTML = html;
       const stale = newest != null && (Date.now() - newest) > (ch.staleMin || 60) * 60e3;
       row.querySelector('.age').textContent = newest ? ago(newest) : 'ingen data';
-      row.classList.toggle('stale', stale && !alarm);
-      row.classList.toggle('alarm', alarm);
-    }).catch(e => { row.querySelector('.age').textContent = e.message; row.classList.add('stale'); });
-  }
+      row.querySelector('.dot').className = 'dot ' + (alarm ? 'alarm' : stale || newest == null ? 'warn' : '');
+    }).catch(e => {
+      row.querySelector('.age').textContent = 'fel';
+      row.querySelector('.dot').className = 'dot alarm';
+      row.querySelector('.body').innerHTML = `<div class="errline">${esc(e.message)}</div>`;
+    });
+  }));
 }
 
 /* ---------- kanalvy ---------- */
 function renderChannel(){
-  const ch = view.ch;
-  document.title = (ch.name || 'Kanal ' + ch.id) + ' – Kanalvy';
+  const ch = view.ch, title = ch.name || 'Kanal ' + ch.id;
+  document.title = title;
   const seg = RANGES.map(([k, l]) => `<button type="button" data-range="${k}" aria-pressed="${view.range === k}">${l}</button>`).join('');
   const avg = AVGS.map(([k, l]) => `<option value="${k}" ${view.avg === k ? 'selected' : ''}>${l}</option>`).join('');
   app.innerHTML = `
-    <header class="bar">
-      <button class="btn icon ghost" id="back" aria-label="Tillbaka till kanaler" title="Kanaler"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg></button>
-      <h1>${esc(ch.name || 'Kanal ' + ch.id)}</h1>
-      <button class="btn icon ghost" id="reload" aria-label="Uppdatera" title="Uppdatera"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-2.6-6.4M21 3v6h-6"/></svg></button>
-      <button class="btn icon ghost" id="cset" aria-label="Kanalinställningar" title="Kanalinställningar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg></button>
-    </header>
-    <div class="controls">
-      <div class="seg" role="group" aria-label="Tidsintervall">${seg}</div>
-      <select id="avg" aria-label="Medelvärde">${avg}</select>
-      <span class="muted small" id="loaded"></span>
+    <div class="nav">
+      <div class="side"><button class="navbtn" id="back" aria-label="Tillbaka till kanaler" style="padding-left:4px">${I.back}<span style="margin-left:5px">Kanaler</span></button></div>
+      <div class="mid">${esc(title)}</div>
+      <div class="side r"><button class="navbtn" id="rbtn" aria-label="Uppdatera">${I.refresh}</button><button class="navbtn" id="cset" aria-label="Kanalinställningar">${I.sliders}</button></div>
+    </div>
+    <h1 class="large">${esc(title)}</h1>
+    <div class="sub" id="sub"><i class="dot idle"></i><span>Hämtar …</span></div>
+    <div id="stale"></div>
+    <div id="hero"></div>
+    <div class="segwrap">
+      <div class="seg" role="group" aria-label="Tidsintervall"><span class="thumb" id="thumb"></span>${seg}</div>
+      <div class="subctl">
+        <label class="selpill"><span id="avgLab">${esc(AVGS.find(a => a[0] === view.avg)[1])}</span>${I.chev}<select id="avg" aria-label="Upplösning">${avg}</select></label>
+      </div>
       <div class="custom ${view.range === 'custom' ? 'on' : ''}" id="custom">
-        <label class="f">Från<input type="datetime-local" id="cStart" value="${esc(view.cStart)}"></label>
-        <label class="f">Till<input type="datetime-local" id="cEnd" value="${esc(view.cEnd)}"></label>
-        <button class="btn" id="cGo" type="button" style="align-self:end">Visa intervall</button>
+        <label>Från<input type="datetime-local" id="cStart" value="${esc(view.cStart)}"></label>
+        <label>Till<input type="datetime-local" id="cEnd" value="${esc(view.cEnd)}"></label>
+        <button class="go" id="cGo" type="button">Visa</button>
       </div>
     </div>
-    <div id="stale"></div>
-    <div class="tiles" id="tiles"></div>
-    <div id="charts"><p class="loading">Hämtar data …</p></div>
-    <div class="foot">
-      <button class="btn" id="csv" type="button">Exportera CSV</button>
-      <a class="btn" style="text-decoration:none;display:inline-grid;place-items:center" href="https://thingspeak.mathworks.com/channels/${encodeURIComponent(ch.id)}" target="_blank" rel="noopener">Öppna i ThingSpeak</a>
-    </div>`;
+    <div id="charts"><div class="loading">${I.refresh}</div></div>
+    <p class="foot" id="foot"></p>`;
   document.getElementById('back').onclick = () => { location.hash = ''; };
-  document.getElementById('reload').onclick = () => loadChannel(true);
+  document.getElementById('rbtn').onclick = refreshNow;
   document.getElementById('cset').onclick = openChannelSettings;
-  document.getElementById('csv').onclick = exportCSV;
-  document.getElementById('avg').onchange = e => { view.avg = e.target.value; loadChannel(false); };
+  document.getElementById('avg').onchange = e => { view.avg = e.target.value; document.getElementById('avgLab').textContent = AVGS.find(a => a[0] === view.avg)[1]; loadChannel(false); };
+  moveThumb();
   app.querySelectorAll('[data-range]').forEach(b => b.onclick = () => {
     view.range = b.dataset.range;
     app.querySelectorAll('[data-range]').forEach(x => x.setAttribute('aria-pressed', x === b));
+    moveThumb();
     document.getElementById('custom').classList.toggle('on', view.range === 'custom');
     if(view.range === 'custom'){
       if(!view.cStart){ const e = new Date(), s = new Date(Date.now() - 3*864e5); view.cStart = localInput(s); view.cEnd = localInput(e); document.getElementById('cStart').value = view.cStart; document.getElementById('cEnd').value = view.cEnd; }
@@ -347,8 +465,13 @@ function renderChannel(){
     loadChannel(false);
   });
   document.getElementById('cGo').onclick = () => { view.cStart = document.getElementById('cStart').value; view.cEnd = document.getElementById('cEnd').value; loadChannel(false); };
-  if(view.data) paint(); 
+  navScroll();
+  if(view.data) paint();
   loadChannel(!!view.data);
+}
+function moveThumb(){
+  const i = RANGES.findIndex(r => r[0] === view.range);
+  const th = document.getElementById('thumb'); if(th) th.style.transform = `translateX(${i * 100}%)`;
 }
 function localInput(d){ const p = n => String(n).padStart(2, '0'); return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}T${p(d.getHours())}:${p(d.getMinutes())}`; }
 function rangeBounds(){
@@ -364,8 +487,8 @@ async function loadChannel(quiet){
   const ch = view.ch; if(!ch) return;
   const b = rangeBounds();
   const charts = document.getElementById('charts');
-  if(!b){ charts.innerHTML = '<p class="err">Välj ett giltigt intervall där Till är senare än Från.</p>'; return; }
-  if(!quiet && charts) charts.innerHTML = '<p class="loading">Hämtar data …</p>';
+  if(!b){ charts.innerHTML = '<p class="err">Välj ett intervall där Till är senare än Från.</p>'; return; }
+  if(!quiet && charts) charts.innerHTML = `<div class="loading">${I.refresh}</div>`;
   const seq = ++reqSeq;
   try{
     const [latest, data] = await Promise.all([fetchLatest(ch), fetchRange(ch, b[0], b[1], view.avg)]);
@@ -375,57 +498,65 @@ async function loadChannel(quiet){
     paint();
   }catch(e){
     if(seq !== reqSeq) return;
-    if(charts) charts.innerHTML = `<p class="err">${esc(e.message)}</p>`;
+    const c = document.getElementById('charts'); if(c) c.innerHTML = `<p class="err">${esc(e.message)}</p>`;
+    const s = document.getElementById('sub'); if(s) s.innerHTML = `<i class="dot alarm"></i><span>Kunde inte hämta data</span>`;
   }
 }
 function paint(){
   const ch = view.ch, data = view.data, latest = view.latest; if(!data) return;
   const meta = data.meta || (latest && latest.channel) || {};
   const nums = activeFields(meta).filter(n => !fcfg(ch, n).hidden);
-  const loaded = document.getElementById('loaded');
-  if(loaded) loaded.textContent = 'Uppdaterad ' + fmtClock(view.loadedAt) + (data.truncated ? ' (urval begränsat, välj medelvärde)' : '');
 
-  // rutor med senaste värden
-  let newest = null;
-  const tiles = nums.map((n, idx) => {
-    const { cur, prev } = lastTwo(latest && latest.feeds, n);
-    const f = fcfg(ch, n), d = decOf(ch, n, [cur && cur.v]);
+  let newest = null, anyAlarm = false;
+  const vals = nums.map(n => {
+    const { cur, prev } = lastTwo(latest && latest.feeds, n), f = fcfg(ch, n), d = decOf(ch, n, [cur && cur.v]);
     if(cur && (newest == null || cur.t > newest)) newest = cur.t;
-    let trend = '';
-    if(cur && prev){
-      const diff = cur.v - prev.v, eps = Math.pow(10, -d) / 2;
-      trend = Math.abs(diff) < eps ? '→ oförändrat' : (diff > 0 ? '↑ +' : '↓ −') + (Math.abs(diff) < eps ? '' : nf(Math.abs(diff), d));
-    }
-    const alarm = cur && isAlarm(ch, n, cur.v);
-    return `<div class="tile ${alarm ? 'alarm' : ''}" style="--fc:var(--c${((n-1)%8)+1})">
-      <div class="lab">${esc(fieldLabel(ch, n, meta))}</div>
-      <div class="big num">${cur ? nf(cur.v, d) : '–'}${f.unit ? '<small>' + esc(f.unit) + '</small>' : ''}</div>
-      <div class="meta num"><span>${esc(trend)}</span><span>${cur ? esc(ago(cur.t)) : ''}</span></div>
-      ${alarm ? `<div class="small" style="color:var(--alarm);margin-top:3px">Utanför gränsen ${f.min != null ? nf(f.min, d) : '–'} … ${f.max != null ? nf(f.max, d) : '–'}</div>` : ''}
-    </div>`;
-  }).join('');
-  const tEl = document.getElementById('tiles'); if(tEl) tEl.innerHTML = tiles;
+    const a = cur && isAlarm(ch, n, cur.v); if(a) anyAlarm = true;
+    return { n, cur, prev, f, d, a, label: fieldLabel(ch, n, meta) };
+  });
+  const stale = newest != null && (Date.now() - newest) > (ch.staleMin || 60) * 60e3;
+
+  const sub = document.getElementById('sub');
+  if(sub) sub.innerHTML = `<i class="dot ${anyAlarm ? 'alarm' : stale || newest == null ? 'warn' : ''}"></i><span>${newest ? 'Senaste mätning ' + esc(ago(newest)) : 'Ingen data ännu'}</span>`;
   const sEl = document.getElementById('stale');
-  if(sEl){
-    const stale = newest != null && (Date.now() - newest) > (ch.staleMin || 60) * 60e3;
-    sEl.innerHTML = stale ? `<div class="stalenote">Ingen ny data sedan ${esc(fmtTime(newest))}. Kontrollera enheten.</div>` : '';
+  if(sEl) sEl.innerHTML = stale ? `<div class="banner">${I.warn}<span>Ingen ny data sedan ${esc(fmtTime(newest))}. Kontrollera enheten.</span></div>` : '';
+
+  const hero = document.getElementById('hero');
+  if(hero){
+    if(!vals.length){ hero.innerHTML = ''; }
+    else{
+      const [h, ...rest] = vals;
+      const lim = h.a ? `<span class="chip alarm">Utanför ${h.f.min != null ? nf(h.f.min, h.d) : '–'} … ${h.f.max != null ? nf(h.f.max, h.d) : '–'}</span>` : '';
+      const tr = trendOf(h.cur, h.prev, h.d);
+      hero.innerHTML = `<div class="hero" style="--fc:${colorOf(h.n)}">
+        <div class="lab">${esc(h.label)}</div>
+        <div class="big num ${h.a ? 'alarm' : ''}">${h.cur ? nf(h.cur.v, h.d) : '–'}${unitHtml(h.f.unit)}</div>
+        <div class="chips">${tr ? `<span class="chip num">${esc(tr)}</span>` : ''}${lim}</div>
+        ${rest.map(x => `<div class="row ${x.a ? 'alarm' : ''}" style="--fc:${colorOf(x.n)}">
+            <div class="l"><i></i><span>${esc(x.label)}</span></div>
+            <div class="v num"><b>${x.cur ? nf(x.cur.v, x.d) : '–'}</b>${unitHtml(x.f.unit)}<em>${x.a ? 'Utanför gränsen' : esc(trendOf(x.cur, x.prev, x.d))}</em></div>
+          </div>`).join('')}
+        ${rest.length ? '' : '<div style="height:8px"></div>'}
+      </div>`;
+    }
   }
 
-  // grafer
+  const foot = document.getElementById('foot');
+  if(foot) foot.textContent = 'Uppdaterad ' + fmtClock(view.loadedAt) + (data.truncated ? '. Långt intervall, välj medelvärde för att se allt.' : '');
+
   const cEl = document.getElementById('charts'); if(!cEl) return;
-  cEl.innerHTML = nums.map(n => {
-    const s = toSeries(data.feeds, n), f = fcfg(ch, n), d = decOf(ch, n, s.map(p => p.v));
+  cEl.innerHTML = vals.map(x => {
+    const s = toSeries(data.feeds, x.n), d = decOf(ch, x.n, s.map(p => p.v));
     let mn = Infinity, mx = -Infinity, sum = 0;
     s.forEach(p => { if(p.v < mn) mn = p.v; if(p.v > mx) mx = p.v; sum += p.v; });
-    const u = f.unit ? ' ' + esc(f.unit) : '';
-    const stats = s.length ? `min <b class="num">${nf(mn, d)}</b> · medel <b class="num">${nf(sum/s.length, d)}</b> · max <b class="num">${nf(mx, d)}</b>${u}` : '';
-    return `<section class="chart" style="--fc:var(--c${((n-1)%8)+1})">
-      <div class="head"><h3><i></i>${esc(fieldLabel(ch, n, meta))}</h3><span class="stats">${stats}</span></div>
-      <div class="plot" data-field="${n}"></div></section>`;
-  }).join('') || '<p class="empty">Alla fält är dolda. Visa fält under kanalinställningar.</p>';
+    const stats = s.length ? `<div class="stats num"><div>Lägst<b>${nf(mn, d)}</b></div><div>Medel<b>${nf(sum/s.length, d)}</b></div><div>Högst<b>${nf(mx, d)}</b></div></div>` : '';
+    return `<section class="chart" style="--fc:${colorOf(x.n)}">
+      <h3><i></i>${esc(x.label)}${x.f.unit ? ' <span style="color:var(--muted);font-weight:400">' + esc(x.f.unit) + '</span>' : ''}</h3>
+      ${stats}<div class="plot" data-field="${x.n}"></div></section>`;
+  }).join('') || '<p class="nodata">Alla fält är dolda. Visa dem i kanalinställningarna.</p>';
   cEl.querySelectorAll('.plot').forEach(host => {
     const n = +host.dataset.field, f = fcfg(ch, n), s = toSeries(data.feeds, n);
-    drawChart(host, s, { dec: decOf(ch, n, s.map(p => p.v)), unit: f.unit || '', lo: f.min, hi: f.max, color: `var(--c${((n-1)%8)+1})`, t0: view.bounds[0].getTime(), t1: view.bounds[1].getTime() });
+    drawChart(host, s, { id: n, dec: decOf(ch, n, s.map(p => p.v)), unit: f.unit || '', lo: f.min, hi: f.max, color: colorOf(n), t0: view.bounds[0].getTime(), t1: view.bounds[1].getTime() });
   });
 }
 
@@ -435,9 +566,9 @@ function niceStep(span, count){
   return (r < 1.5 ? 1 : r < 3 ? 2 : r < 7 ? 5 : 10) * mag;
 }
 function drawChart(host, pts, o){
-  if(!pts.length){ host.innerHTML = '<p class="empty">Ingen data i valt intervall.</p>'; return; }
-  const W = Math.max(260, host.clientWidth || 600), H = W < 500 ? 170 : 210;
-  const pl = 46, pr = 10, pt = 10, pb = 24;
+  if(!pts.length){ host.innerHTML = '<p class="nodata">Ingen data i valt intervall.</p>'; return; }
+  const W = Math.max(260, host.clientWidth || 340), H = W < 500 ? 180 : 220;
+  const pl = 6, pr = 40, pt = 12, pb = 22;
   let t0 = Math.min(o.t0, pts[0].t), t1 = Math.max(o.t1, pts[pts.length-1].t);
   if(t1 <= t0){ t0 -= 6e4; t1 += 6e4; }
   let vmin = Infinity, vmax = -Infinity;
@@ -445,7 +576,7 @@ function drawChart(host, pts, o){
   const span0 = Math.max(vmax - vmin, Math.abs(vmax) * 0.02, 1e-6);
   [o.lo, o.hi].forEach(x => { if(x != null && x > vmin - span0 && x < vmax + span0){ vmin = Math.min(vmin, x); vmax = Math.max(vmax, x); } });
   if(vmax - vmin < 1e-9){ vmin -= 1; vmax += 1; }
-  const step = niceStep(vmax - vmin, 4);
+  const step = niceStep(vmax - vmin, 3);
   const y0 = Math.floor(vmin / step) * step, y1 = Math.ceil(vmax / step) * step;
   const X = t => pl + (t - t0) / (t1 - t0) * (W - pl - pr);
   const Y = v => pt + (1 - (v - y0) / (y1 - y0)) * (H - pt - pb);
@@ -453,26 +584,38 @@ function drawChart(host, pts, o){
   let g = '';
   for(let v = y0; v <= y1 + step/2; v += step){
     const y = Y(v).toFixed(1);
-    g += `<line x1="${pl}" x2="${W-pr}" y1="${y}" y2="${y}" stroke="var(--line)" stroke-width="1"/><text class="axis" x="${pl-6}" y="${+y+4}" text-anchor="end">${nf(v, Math.min(yd, 3))}</text>`;
+    g += `<line x1="${pl}" x2="${W-pr}" y1="${y}" y2="${y}" stroke="var(--hair)" stroke-width="1"/><text class="axis" x="${W-pr+6}" y="${+y+4}">${nf(v, Math.min(yd, 3))}</text>`;
   }
-  const tspan = t1 - t0, nx = W < 500 ? 3 : 5;
+  const tspan = t1 - t0, nx = W < 500 ? 3 : 4;
   for(let i = 0; i <= nx; i++){
     const t = t0 + tspan * i / nx, x = X(t);
     const lab = tspan <= 36*3600e3 ? fmtClock(t) : new Date(t).toLocaleDateString('sv-FI', {day:'numeric', month:'numeric'});
-    g += `<text class="axis" x="${x.toFixed(1)}" y="${H-6}" text-anchor="${i === 0 ? 'start' : i === nx ? 'end' : 'middle'}">${lab}</text>`;
+    g += `<text class="axis" x="${x.toFixed(1)}" y="${H-4}" text-anchor="${i === 0 ? 'start' : i === nx ? 'end' : 'middle'}">${lab}</text>`;
   }
-  [o.lo, o.hi].forEach(x => { if(x != null && x >= y0 && x <= y1){ const y = Y(x).toFixed(1); g += `<line x1="${pl}" x2="${W-pr}" y1="${y}" y2="${y}" stroke="var(--alarm)" stroke-width="1.2" stroke-dasharray="5 4"/>`; } });
-  // luckor: bryt linjen om avståndet är mycket större än normalt
+  [o.lo, o.hi].forEach(x => { if(x != null && x >= y0 && x <= y1){ const y = Y(x).toFixed(1); g += `<line x1="${pl}" x2="${W-pr}" y1="${y}" y2="${y}" stroke="var(--alarm)" stroke-width="1.3" stroke-dasharray="4 4" opacity=".8"/>`; } });
   const gaps = []; for(let i = 1; i < pts.length; i++) gaps.push(pts[i].t - pts[i-1].t);
   const med = gaps.length ? gaps.slice().sort((a, b) => a - b)[Math.floor(gaps.length/2)] : 0;
-  let d = '';
-  pts.forEach((p, i) => { const brk = i === 0 || (med > 0 && p.t - pts[i-1].t > med * 6); d += (brk ? 'M' : 'L') + X(p.t).toFixed(1) + ' ' + Y(p.v).toFixed(1); });
-  const dots = pts.length <= 60 ? pts.map(p => `<circle cx="${X(p.t).toFixed(1)}" cy="${Y(p.v).toFixed(1)}" r="2.2" fill="${o.color}"/>`).join('') : '';
-  const alarmDots = (o.lo != null || o.hi != null) ? pts.filter(p => (o.lo != null && p.v < o.lo) || (o.hi != null && p.v > o.hi)).slice(0, 400).map(p => `<circle cx="${X(p.t).toFixed(1)}" cy="${Y(p.v).toFixed(1)}" r="2.6" fill="var(--alarm)"/>`).join('') : '';
-  host.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="Graf">${g}
-    <path d="${d}" fill="none" stroke="${o.color}" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/>${dots}${alarmDots}
+  const segs = []; let curSeg = [];
+  pts.forEach((p, i) => { if(i > 0 && med > 0 && p.t - pts[i-1].t > med * 6){ segs.push(curSeg); curSeg = []; } curSeg.push(p); });
+  segs.push(curSeg);
+  const base = (H - pb).toFixed(1);
+  let line = '', area = '';
+  segs.forEach(sg => {
+    const d = sg.map((p, i) => (i ? 'L' : 'M') + X(p.t).toFixed(1) + ' ' + Y(p.v).toFixed(1)).join('');
+    line += d;
+    if(sg.length > 1) area += d + `L${X(sg[sg.length-1].t).toFixed(1)} ${base}L${X(sg[0].t).toFixed(1)} ${base}Z`;
+  });
+  const gid = 'g' + o.id + '_' + Math.random().toString(36).slice(2, 7);
+  const dots = pts.length <= 40 ? pts.map(p => `<circle cx="${X(p.t).toFixed(1)}" cy="${Y(p.v).toFixed(1)}" r="2.4" fill="${o.color}"/>`).join('') : '';
+  const alarmDots = (o.lo != null || o.hi != null) ? pts.filter(p => (o.lo != null && p.v < o.lo) || (o.hi != null && p.v > o.hi)).slice(0, 400).map(p => `<circle cx="${X(p.t).toFixed(1)}" cy="${Y(p.v).toFixed(1)}" r="2.8" fill="var(--alarm)"/>`).join('') : '';
+  const last = pts[pts.length-1];
+  host.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="Graf">
+    <defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:${o.color};stop-opacity:.28"/><stop offset="1" style="stop-color:${o.color};stop-opacity:0"/></linearGradient></defs>
+    ${g}<path d="${area}" fill="url(#${gid})"/>
+    <path d="${line}" fill="none" stroke="${o.color}" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>${dots}${alarmDots}
+    <circle cx="${X(last.t).toFixed(1)}" cy="${Y(last.v).toFixed(1)}" r="4" fill="${o.color}" stroke="var(--card)" stroke-width="2"/>
     <line class="cross" x1="0" x2="0" y1="${pt}" y2="${H-pb}" stroke="var(--muted)" stroke-width="1" visibility="hidden"/>
-    <circle class="hit" r="4" fill="${o.color}" stroke="var(--panel)" stroke-width="2" visibility="hidden"/></svg><div class="tip num"></div>`;
+    <circle class="hit" r="5" fill="${o.color}" stroke="var(--card)" stroke-width="2.5" visibility="hidden"/></svg><div class="tip num"></div>`;
   const svg = host.querySelector('svg'), cross = svg.querySelector('.cross'), hit = svg.querySelector('.hit'), tip = host.querySelector('.tip');
   function show(ev){
     const r = svg.getBoundingClientRect(); const px = (ev.clientX - r.left) * W / r.width;
@@ -483,66 +626,56 @@ function drawChart(host, pts, o){
     const x = X(p.t), y = Y(p.v);
     cross.setAttribute('x1', x); cross.setAttribute('x2', x); cross.setAttribute('visibility', 'visible');
     hit.setAttribute('cx', x); hit.setAttribute('cy', y); hit.setAttribute('visibility', 'visible');
-    tip.textContent = nf(p.v, o.dec) + (o.unit ? ' ' + o.unit : '') + '  ' + fmtTime(p.t);
+    tip.innerHTML = `<b>${esc(nf(p.v, o.dec))}${o.unit ? ' ' + esc(o.unit) : ''}</b><br>${esc(fmtTime(p.t))}`;
     tip.style.display = 'block';
     const sx = x * r.width / W, tw = tip.offsetWidth;
     tip.style.left = Math.min(Math.max(0, sx - tw/2), r.width - tw) + 'px';
+    tip.style.top = (-tip.offsetHeight - 4) + 'px';
   }
   function hide(){ cross.setAttribute('visibility', 'hidden'); hit.setAttribute('visibility', 'hidden'); tip.style.display = 'none'; }
   svg.addEventListener('pointermove', show);
   svg.addEventListener('pointerdown', show);
   svg.addEventListener('pointerleave', hide);
+  svg.addEventListener('pointercancel', hide);
 }
 
-/* ---------- export ---------- */
-function download(name, text, type){
-  const blob = new Blob([text], {type}); const url = URL.createObjectURL(blob);
-  const a = document.createElement('a'); a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 2000);
+/* ---------- ark (bottom sheets) ---------- */
+function openSheet(){
+  dlg.showModal();
+  const first = dlgBody.querySelector('input:not([type=checkbox])');
+  if(first && !first.value) setTimeout(() => first.focus(), 350);
 }
-function exportCSV(){
-  const ch = view.ch, data = view.data; if(!data) return;
-  const meta = data.meta || {}, nums = activeFields(meta);
-  const q = s => '"' + String(s).replace(/"/g, '""') + '"';
-  const head = ['tid'].concat(nums.map(n => fieldLabel(ch, n, meta) + (fcfg(ch, n).unit ? ' (' + fcfg(ch, n).unit + ')' : '')));
-  const lines = [head.map(q).join(';')];
-  data.feeds.forEach(r => lines.push([q(r.created_at)].concat(nums.map(n => { const v = numIn(r['field'+n]); return v == null ? '' : String(v).replace('.', ','); })).join(';')));
-  download(`kanal-${ch.id}-${new Date().toISOString().slice(0,10)}.csv`, '\ufeff' + lines.join('\r\n'), 'text/csv;charset=utf-8');
-}
+dlg.addEventListener('click', e => { if(e.target === dlg) dlg.close(); });
 
-/* ---------- inställningar ---------- */
 function openChannelSettings(){
   const ch = view.ch, meta = (view.data && view.data.meta) || (view.latest && view.latest.channel) || {};
   const nums = activeFields(meta);
-  const rows = nums.map(n => { const f = fcfg(ch, n); return `
-    <div class="frow">
-      <input type="checkbox" data-k="show" data-n="${n}" ${f.hidden ? '' : 'checked'} aria-label="Visa fält ${n}">
-      <div>
-        <div class="small muted" style="margin-bottom:4px">Fält ${n}${meta['field'+n] ? ': ' + esc(meta['field'+n]) : ''}</div>
-        <div class="fgrid">
-          <label class="f">Namn<input data-k="label" data-n="${n}" value="${esc(f.label || '')}" placeholder="${esc(meta['field'+n] || '')}"></label>
-          <label class="f">Enhet<input data-k="unit" data-n="${n}" value="${esc(f.unit || '')}" placeholder="°C"></label>
-          <label class="f">Decimaler<input data-k="dec" data-n="${n}" inputmode="numeric" value="${f.dec != null ? f.dec : ''}" placeholder="auto"></label>
-          <label class="f">Nedre gräns<input data-k="min" data-n="${n}" inputmode="decimal" value="${f.min != null ? String(f.min).replace('.', ',') : ''}"></label>
-          <label class="f">Övre gräns<input data-k="max" data-n="${n}" inputmode="decimal" value="${f.max != null ? String(f.max).replace('.', ',') : ''}"></label>
-        </div>
-      </div>
+  const val = v => v != null ? String(v).replace('.', ',') : '';
+  const groups = nums.map(n => { const f = fcfg(ch, n); return `
+    <div class="ghead ftitle" style="--fc:${colorOf(n)}"><i></i>Fält ${n}${meta['field'+n] ? ', ' + esc(meta['field'+n]) : ''}</div>
+    <div class="group">
+      <div class="grow"><span>Visa</span><input type="checkbox" class="switch" data-k="show" data-n="${n}" ${f.hidden ? '' : 'checked'}></div>
+      <div class="grow"><span>Namn</span><input data-k="label" data-n="${n}" value="${esc(f.label || '')}" placeholder="${esc(meta['field'+n] || 'Fält ' + n)}"></div>
+      <div class="grow"><span>Enhet</span><input data-k="unit" data-n="${n}" value="${esc(f.unit || '')}" placeholder="t.ex. °C"></div>
+      <div class="grow"><span>Decimaler</span><input data-k="dec" data-n="${n}" inputmode="numeric" value="${f.dec != null ? f.dec : ''}" placeholder="Auto"></div>
+      <div class="grow"><span>Nedre gräns</span><input data-k="min" data-n="${n}" inputmode="decimal" value="${val(f.min)}" placeholder="Ingen"></div>
+      <div class="grow"><span>Övre gräns</span><input data-k="max" data-n="${n}" inputmode="decimal" value="${val(f.max)}" placeholder="Ingen"></div>
     </div>`; }).join('');
-  dlgBody.innerHTML = `<h2>Kanalinställningar</h2>
-    <div class="grid2">
-      <label class="f">Namn<input id="sName" value="${esc(ch.name || '')}"></label>
-      <label class="f">Read API Key<input id="sKey" value="${esc(ch.key || '')}" placeholder="bara privata kanaler"></label>
-      <label class="f">Varna om ingen data på (min)<input id="sStale" inputmode="numeric" value="${ch.staleMin || 60}"></label>
+  dlgBody.innerHTML = `<div class="grab"></div>
+    <div class="shead"><button class="navbtn" id="sCancel">Avbryt</button><h2>Kanalinställningar</h2><button class="navbtn done" id="sSave">Klar</button></div>
+    <div class="group">
+      <div class="grow"><span>Namn</span><input id="sName" value="${esc(ch.name || '')}" placeholder="Kanal ${esc(ch.id)}"></div>
+      <div class="grow"><span>Läsnyckel</span><input id="sKey" value="${esc(ch.key || '')}" placeholder="Bara privata" autocapitalize="characters" spellcheck="false"></div>
+      <div class="grow"><span>Varna efter</span><input id="sStale" inputmode="numeric" value="${ch.staleMin || 60}" style="flex:.6"><span style="flex:none;color:var(--muted)">min utan data</span></div>
     </div>
-    <div class="fieldset"><div class="small muted">Fält. Värden utanför gränserna markeras med rött.</div>${rows}</div>
-    <div class="actions">
-      <button class="btn danger" id="sDel" type="button">Ta bort kanal</button>
-      <span style="display:flex;gap:8px"><button class="btn" id="sCancel" type="button">Avbryt</button><button class="btn primary" id="sSave" type="button">Spara</button></span>
-    </div>`;
-  dlg.showModal();
+    <p class="gnote">Kanal-ID ${esc(ch.id)}. Värden utanför gränserna visas i rött.</p>
+    ${groups}
+    <div style="height:24px"></div>
+    <div class="group"><button class="grow btnrow danger" id="sDel">Ta bort kanal</button></div>`;
+  openSheet();
   document.getElementById('sCancel').onclick = () => dlg.close();
   document.getElementById('sDel').onclick = () => {
-    if(!confirm('Ta bort kanalen ' + (ch.name || ch.id) + ' från listan?')) return;
+    if(!confirm('Ta bort ' + (ch.name || 'kanal ' + ch.id) + ' från appen?')) return;
     store.channels = store.channels.filter(c => c !== ch); save(); dlg.close(); location.hash = '';
   };
   document.getElementById('sSave').onclick = () => {
@@ -564,18 +697,31 @@ function openChannelSettings(){
 function openGlobalSettings(){
   const opts = [[0,'Av'],[1,'Varje minut'],[5,'Var 5:e minut'],[15,'Var 15:e minut'],[60,'Varje timme']]
     .map(([v, l]) => `<option value="${v}" ${store.refresh == v ? 'selected' : ''}>${l}</option>`).join('');
-  dlgBody.innerHTML = `<h2>Inställningar</h2>
-    <label class="f">Uppdatera automatiskt<select id="gRef">${opts}</select></label>
-    <div class="fieldset">
-      <div class="small muted">Flytta kanaler och inställningar mellan enheter. Filen innehåller dina läsnycklar.</div>
-      <div class="row"><button class="btn" id="gExp" type="button">Exportera inställningar</button><button class="btn" id="gImp" type="button">Importera inställningar</button></div>
+  dlgBody.innerHTML = `<div class="grab"></div>
+    <div class="shead"><button class="navbtn" id="gCancel">Avbryt</button><h2>Inställningar</h2><button class="navbtn done" id="gSave">Klar</button></div>
+    <div class="group"><div class="grow"><span>Uppdatera automatiskt</span><select id="gRef">${opts}</select></div></div>
+    <p class="gnote">Appen hämtar också ny data varje gång du öppnar den.</p>
+    <div class="ghead">Säkerhetskopia</div>
+    <div class="group">
+      <button class="grow btnrow" id="gExp" type="button">Spara kopia av inställningarna</button>
+      <button class="grow btnrow" id="gImp" type="button">Läs in inställningar</button>
     </div>
-    <div class="actions"><span></span><span style="display:flex;gap:8px"><button class="btn" id="gCancel" type="button">Avbryt</button><button class="btn primary" id="gSave" type="button">Spara</button></span></div>`;
-  dlg.showModal();
+    <p class="gnote">Kopian innehåller kanaler och läsnycklar. Använd den för att flytta inställningarna till en annan enhet.</p>`;
+  openSheet();
   document.getElementById('gCancel').onclick = () => dlg.close();
   document.getElementById('gSave').onclick = () => { store.refresh = +document.getElementById('gRef').value || 0; save(); dlg.close(); route(); };
-  document.getElementById('gExp').onclick = () => download('kanalvy-installningar.json', JSON.stringify(store, null, 2), 'application/json');
+  document.getElementById('gExp').onclick = exportSettings;
   document.getElementById('gImp').onclick = () => document.getElementById('importFile').click();
+}
+async function exportSettings(){
+  const text = JSON.stringify(store, null, 2), name = 'temppen-installningar.json';
+  try{
+    const file = new File([text], name, {type: 'application/json'});
+    if(navigator.canShare && navigator.canShare({files: [file]})){ await navigator.share({files: [file], title: name}); return; }
+  }catch(e){ if(e && e.name === 'AbortError') return; }
+  const url = URL.createObjectURL(new Blob([text], {type: 'application/json'}));
+  const a = document.createElement('a'); a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
 }
 document.getElementById('importFile').onchange = async e => {
   const file = e.target.files[0]; e.target.value = ''; if(!file) return;
@@ -586,14 +732,33 @@ document.getElementById('importFile').onchange = async e => {
     o.channels.forEach(c => { if(c && /^\d+$/.test(String(c.id))){ const ex = chById(c.id); if(ex) Object.assign(ex, c); else { store.channels.push(c); added++; } } });
     if(o.refresh != null) store.refresh = +o.refresh || 0;
     save(); dlg.close(); route();
-    alert('Importen klar. ' + added + ' nya kanaler, övriga uppdaterade.');
-  }catch(err){ alert('Filen kunde inte läsas. Välj en fil som exporterats från Kanalvy.'); }
+    alert('Inställningarna är inlästa. ' + added + ' nya kanaler.');
+  }catch(err){ alert('Filen kunde inte läsas. Välj en kopia som sparats från appen.'); }
 };
+
+/* ---------- dra för att uppdatera ---------- */
+let pY = null, pD = 0;
+document.addEventListener('touchstart', e => { pY = (window.scrollY <= 0 && !dlg.open && !e.target.closest('.plot')) ? e.touches[0].clientY : null; pD = 0; }, {passive:true});
+document.addEventListener('touchmove', e => {
+  if(pY == null || busy) return;
+  pD = e.touches[0].clientY - pY;
+  if(pD <= 0){ ptr.style.opacity = 0; return; }
+  const k = Math.min(pD, 110);
+  ptr.style.opacity = Math.min(1, k / 70);
+  ptr.style.transform = `translateY(${k * 0.5 - 30}px) rotate(${k * 3}deg)`;
+  ptr.classList.toggle('ready', pD > 75);
+}, {passive:true});
+document.addEventListener('touchend', async () => {
+  if(pY == null) return;
+  const go = pD > 75; pY = null; pD = 0;
+  ptr.style.opacity = ''; ptr.style.transform = ''; ptr.classList.remove('ready');
+  if(go && !busy){ ptr.classList.add('busy'); try{ await refreshNow(); } finally{ ptr.classList.remove('busy'); } }
+});
 
 /* ---------- start ---------- */
 window.addEventListener('hashchange', route);
 window.addEventListener('resize', () => { clearTimeout(resizeT); resizeT = setTimeout(() => { if(view.ch && view.data) paint(); }, 200); });
-document.addEventListener('visibilitychange', () => { if(!document.hidden && store.refresh > 0) (view.ch ? loadChannel(true) : loadListValues()); });
+document.addEventListener('visibilitychange', () => { if(!document.hidden) refreshNow(); });
 load(); route();
 })();
 </script>
