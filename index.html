@@ -18,6 +18,7 @@
   --accent:#1B7FA6; --on-accent:#FFFFFF; --alarm:#D94B3D; --warn:#C98204; --ok:#23955F;
   --c1:#1B7FA6; --c2:#7D55C7; --c3:#23955F; --c4:#C98204; --c5:#D94B3D; --c6:#3F63B5; --c7:#9C6A2E; --c8:#2E8C8C;
   --nav:rgba(238,241,244,.82);
+  --wx-sun:#F2A900; --wx-moon:#8E9BB0; --wx-cloud:#B4BFC9; --wx-rain:#2F86C9; --wx-snow:#8DB6D6;
   color-scheme:light;
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px);
@@ -29,6 +30,7 @@
     --accent:#5BBCE4; --on-accent:#08202B; --alarm:#FF6B5E; --warn:#F2B13C; --ok:#4CCB8C;
     --c1:#5BBCE4; --c2:#B193F0; --c3:#4CCB8C; --c4:#F2B13C; --c5:#FF6B5E; --c6:#8AA6F0; --c7:#D9A867; --c8:#6FCFCF;
     --nav:rgba(12,18,24,.82);
+    --wx-sun:#FFC83D; --wx-moon:#C9D3E0; --wx-cloud:#7D8B98; --wx-rain:#5BBCE4; --wx-snow:#D8E8F5;
     color-scheme:dark;
   }
 }
@@ -37,6 +39,7 @@
   --accent:#5BBCE4; --on-accent:#08202B; --alarm:#FF6B5E; --warn:#F2B13C; --ok:#4CCB8C;
   --c1:#5BBCE4; --c2:#B193F0; --c3:#4CCB8C; --c4:#F2B13C; --c5:#FF6B5E; --c6:#8AA6F0; --c7:#D9A867; --c8:#6FCFCF;
   --nav:rgba(12,18,24,.82);
+  --wx-sun:#FFC83D; --wx-moon:#C9D3E0; --wx-cloud:#7D8B98; --wx-rain:#5BBCE4; --wx-snow:#D8E8F5;
   color-scheme:dark;
 }
 *,*::before,*::after{box-sizing:inherit}
@@ -178,6 +181,51 @@ dialog::backdrop{background:rgba(5,10,14,.4)}
 .switch:checked::after{transform:translateX(20px)}
 .ftitle{display:flex;align-items:center;gap:8px}
 .ftitle i{width:10px;height:10px;border-radius:3px;background:var(--fc)}
+/* väderkort */
+.wx{background:var(--card);border-radius:22px;padding:16px 18px 10px;margin-bottom:16px;overflow:hidden}
+.wx .t{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.wx .t b{font-size:17px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wx .t span{color:var(--muted);font-size:14px;flex:none}
+.wxnow{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:6px 0 0}
+.wxtemp{font-size:46px;font-weight:600;letter-spacing:-.03em;line-height:1.05}
+.wxtemp small{font-size:22px;font-weight:500;color:var(--muted);margin-left:2px;letter-spacing:0}
+.wxnow svg{flex:none}
+.wxdesc{font-size:15px;color:var(--muted)}
+.wxdesc b{color:var(--ink);font-weight:600}
+.wxrest{display:flex;flex-wrap:wrap;gap:4px 18px;margin-top:10px;padding-top:10px;border-top:1px solid var(--hair);font-size:15px;color:var(--muted)}
+.wxrest b{color:var(--ink);font-weight:600}
+.wxrest svg{vertical-align:-2px;margin-left:3px}
+.wxhours{display:flex;overflow-x:auto;margin:10px -18px 0;padding:10px 10px 8px;border-top:1px solid var(--hair);scroll-snap-type:x proximity;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+.wxhours::-webkit-scrollbar{display:none}
+.wxh{flex:none;width:52px;display:grid;justify-items:center;gap:3px;scroll-snap-align:start;font-size:16px;font-weight:600}
+.wxh .tm{color:var(--muted);font-size:13px;font-weight:500}
+.wxh .pp{color:var(--wx-rain);font-size:12px;font-weight:600;min-height:15px}
+.wxmore{display:flex;align-items:center;justify-content:space-between;width:100%;border:0;border-top:1px solid var(--hair);background:transparent;padding:11px 0;font-size:15px;font-weight:500;color:var(--accent);text-align:left}
+.wxmore svg{transition:transform .2s}
+.wxmore[aria-expanded="true"] svg{transform:rotate(180deg)}
+.wxdays{border-top:1px solid var(--hair);padding-top:4px}
+.wxd{display:grid;grid-template-columns:44px 28px 1fr 32px minmax(48px,84px) 32px;align-items:center;gap:8px;padding:6px 0;font-size:16px}
+.wxd + .wxd{border-top:1px solid var(--hair)}
+.wxd .dn{font-weight:500}
+.wxd .pr{color:var(--wx-rain);font-size:13px;font-weight:600;text-align:left}
+.wxd .lo{color:var(--muted);text-align:right}
+.wxd .hi{text-align:right;font-weight:600}
+.wxbar{position:relative;height:5px;border-radius:3px;background:var(--fill)}
+.wxbar i{position:absolute;top:0;bottom:0;border-radius:3px;background:linear-gradient(90deg,var(--c1),var(--warn))}
+.wxfoot{display:flex;justify-content:space-between;gap:10px;font-size:12px;color:var(--muted);margin-top:6px}
+.wxfoot a{color:var(--muted)}
+.wx .errline{color:var(--alarm);font-size:14px;margin-top:8px}
+.wx .wait{color:var(--muted);font-size:15px;padding:14px 0 8px}
+.grow.link{width:100%;border:0;background:transparent;text-align:left;font-size:17px}
+.grow.link:active{background:var(--fill)}
+.grow.link em{font-style:normal;color:var(--muted);flex:none;max-width:60%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.grow.link .ch{color:var(--muted);transform:rotate(-90deg);flex:none}
+.grow.pick{width:100%;border:0;background:transparent;text-align:left;display:block;padding:10px 16px}
+.grow.pick:active{background:var(--fill)}
+.grow.pick small{display:block;color:var(--muted);font-size:14px}
+.search{display:flex;align-items:center;gap:8px;background:var(--fill);border-radius:12px;padding:0 12px;margin-bottom:12px}
+.search input{flex:1;border:0;background:transparent;font-size:17px;padding:11px 0;min-width:0}
+.search input:focus{outline:none}
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -199,6 +247,12 @@ const app = document.getElementById('app');
 const dlg = document.getElementById('dlg');
 const dlgBody = document.getElementById('dlgBody');
 const ptr = document.getElementById('ptr');
+const WX_API = 'https://api.open-meteo.com/v1/forecast';
+const GEO_API = 'https://geocoding-api.open-meteo.com/v1/search';
+const WX_LS = 'temppen.weather.v1';
+const WX_TTL = 20 * 60e3;
+// Kronoby enligt Open-Meteos geokodning (id 650754)
+const WX_DEFAULT = { name: 'Kronoby', area: 'Österbotten, Finland', lat: 63.72859, lon: 23.03387 };
 
 const I = {
   back: '<svg width="13" height="22" viewBox="0 0 13 22" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M11 2L2 11l9 9"/></svg>',
@@ -208,10 +262,11 @@ const I = {
   plus: '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
   chev: '<svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M2 3.5l3 3 3-3"/></svg>',
   warn: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 3l10 18H2L12 3z"/><path d="M12 10v5M12 18v.5"/></svg>',
+  search: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.4" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg>',
   wave: '<svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16l4-5 4 3 4-7 6 5"/><path d="M3 21h18"/></svg>'
 };
 
-let store = { channels: [], refresh: 0 };
+let store = { channels: [], refresh: 0, weather: Object.assign({}, WX_DEFAULT) };
 let view = { ch: null, range: '24h', avg: '', cStart: '', cEnd: '', data: null, latest: null, loadedAt: null, bounds: null };
 let timer = null, resizeT = null, reqSeq = 0, busy = false;
 
@@ -221,6 +276,13 @@ function load(){
     const s = localStorage.getItem(LS);
     if(s){ const o = JSON.parse(s); if(o && Array.isArray(o.channels)) store = Object.assign({channels:[],refresh:0}, o); }
   }catch(e){}
+  store.weather = cleanPlace(store.weather) || Object.assign({}, WX_DEFAULT);
+}
+function cleanPlace(p){
+  if(!p || typeof p.name !== 'string' || !p.name) return null;
+  const lat = Number(p.lat), lon = Number(p.lon);
+  if(!Number.isFinite(lat) || !Number.isFinite(lon) || Math.abs(lat) > 90 || Math.abs(lon) > 180) return null;
+  return { name: p.name, area: String(p.area || ''), lat, lon };
 }
 function save(){ try{ localStorage.setItem(LS, JSON.stringify(store)); }catch(e){} }
 
@@ -303,6 +365,194 @@ function lastTwo(feeds, n){
   return { cur: s[s.length-1] || null, prev: s[s.length-2] || null };
 }
 
+/* ---------- väder (Open-Meteo) ---------- */
+const WMO = {
+  0:['Klart','clear'], 1:['Mestadels klart','clear'], 2:['Halvklart','partly'], 3:['Mulet','cloud'],
+  45:['Dimma','fog'], 48:['Dimma med rimfrost','fog'],
+  51:['Lätt duggregn','drizzle'], 53:['Duggregn','drizzle'], 55:['Tätt duggregn','drizzle'],
+  56:['Lätt underkylt duggregn','drizzle'], 57:['Underkylt duggregn','drizzle'],
+  61:['Lätt regn','rain'], 63:['Regn','rain'], 65:['Kraftigt regn','rain'],
+  66:['Lätt underkylt regn','rain'], 67:['Underkylt regn','rain'],
+  71:['Lätt snöfall','snow'], 73:['Snöfall','snow'], 75:['Kraftigt snöfall','snow'], 77:['Snökorn','snow'],
+  80:['Lätta regnskurar','showers'], 81:['Regnskurar','showers'], 82:['Kraftiga regnskurar','showers'],
+  85:['Lätta snöbyar','snowshowers'], 86:['Kraftiga snöbyar','snowshowers'],
+  95:['Åska','thunder'], 96:['Åska med hagel','thunder'], 99:['Kraftig åska med hagel','thunder']
+};
+const wxText = c => (WMO[c] || ['Okänt väder'])[0];
+const WX_CLOUD = 'M10 24a5 5 0 0 1-.5-9.97 7.5 7.5 0 0 1 14.2-1.6 5.8 5.8 0 0 1 .3 11.57z';
+function wxIcon(code, day, size){
+  const kind = (WMO[code] || [0, 'cloud'])[1];
+  const sun = (cx, cy, r) => {
+    let rays = '';
+    for(let i = 0; i < 8; i++){ const a = i * Math.PI / 4, c = Math.cos(a), s = Math.sin(a);
+      rays += `M${(cx + c*(r+2.5)).toFixed(1)} ${(cy + s*(r+2.5)).toFixed(1)}L${(cx + c*(r+5)).toFixed(1)} ${(cy + s*(r+5)).toFixed(1)}`; }
+    return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="var(--wx-sun)"/><path d="${rays}" stroke="var(--wx-sun)" stroke-width="2" stroke-linecap="round"/>`;
+  };
+  const moon = (tf) => `<path transform="${tf || ''}" d="M19 5.5a10.5 10.5 0 1 0 8 15.5 8.5 8.5 0 0 1-8-15.5z" fill="var(--wx-moon)"/>`;
+  const sky = (small) => small
+    ? (day ? sun(11, 10, 4.2) : moon('translate(-4 -3) scale(.75)'))
+    : (day ? sun(16, 16, 6) : moon(''));
+  const cloud = (tf) => `<path transform="${tf || ''}" d="${WX_CLOUD}" fill="var(--wx-cloud)"/>`;
+  const drops = (dots) => dots
+    ? `<g fill="var(--wx-rain)"><circle cx="11" cy="27" r="1.4"/><circle cx="16" cy="29" r="1.4"/><circle cx="21" cy="27" r="1.4"/></g>`
+    : `<path d="M11.5 24.5l-1.5 4M16.5 24.5l-1.5 4M21.5 24.5l-1.5 4" stroke="var(--wx-rain)" stroke-width="2.2" stroke-linecap="round"/>`;
+  const flakes = `<g fill="var(--wx-snow)"><circle cx="10.5" cy="26" r="1.8"/><circle cx="16" cy="29" r="1.8"/><circle cx="21.5" cy="26" r="1.8"/></g>`;
+  let g;
+  switch(kind){
+    case 'clear': g = sky(false); break;
+    case 'partly': g = sky(true) + cloud('translate(4 5) scale(.85)'); break;
+    case 'fog': g = `<path d="M6 11h20M4 16.5h24M7 22h18" stroke="var(--wx-cloud)" stroke-width="2.6" stroke-linecap="round"/>`; break;
+    case 'drizzle': g = cloud('translate(0 -4)') + drops(true); break;
+    case 'rain': g = cloud('translate(0 -4)') + drops(false); break;
+    case 'snow': g = cloud('translate(0 -4)') + flakes; break;
+    case 'showers': g = sky(true) + cloud('translate(4 1) scale(.85)') + drops(false); break;
+    case 'snowshowers': g = sky(true) + cloud('translate(4 1) scale(.85)') + flakes; break;
+    case 'thunder': g = cloud('translate(0 -5)') + `<path d="M17.5 17.5l-5 7h3.5l-2 6 6-8h-3.5l2.5-5z" fill="var(--wx-sun)"/>`; break;
+    default: g = cloud('');
+  }
+  return `<svg width="${size}" height="${size}" viewBox="0 0 32 32" aria-hidden="true">${g}</svg>`;
+}
+const COMPASS = ['N','NO','O','SO','S','SV','V','NV'];
+const compass = d => COMPASS[Math.round(((d % 360) + 360) % 360 / 45) % 8];
+// pilen visar vart vinden blåser
+const windArrow = d => `<svg width="13" height="13" viewBox="0 0 12 12" style="transform:rotate(${(d + 180) % 360}deg)" aria-hidden="true"><path d="M6 11V1.8M2.4 5.2L6 1.6l3.6 3.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+let wx = { data: null, at: 0, key: '', err: null, seq: 0 };
+const placeKey = p => p.lat.toFixed(4) + ',' + p.lon.toFixed(4);
+function wxReadCache(){
+  try{ const o = JSON.parse(localStorage.getItem(WX_LS)); if(o && o.data && o.key) return o; }catch(e){}
+  return null;
+}
+function wxWriteCache(){ try{ localStorage.setItem(WX_LS, JSON.stringify({ at: wx.at, key: wx.key, data: wx.data })); }catch(e){} }
+function wxUrl(p){
+  const q = new URLSearchParams({
+    latitude: p.lat, longitude: p.lon, models: 'metno_seamless',
+    current: 'temperature_2m,apparent_temperature,relative_humidity_2m,precipitation,weather_code,cloud_cover,wind_speed_10m,wind_direction_10m,wind_gusts_10m,is_day',
+    hourly: 'temperature_2m,precipitation_probability,precipitation,weather_code,wind_speed_10m,is_day',
+    daily: 'weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,sunrise,sunset',
+    wind_speed_unit: 'ms', timezone: 'auto', forecast_days: '7', timeformat: 'unixtime'
+  });
+  return WX_API + '?' + q;
+}
+async function loadWeather(force){
+  const p = store.weather, key = placeKey(p);
+  if(wx.key !== key){
+    const c = wxReadCache();
+    wx = { data: c && c.key === key ? c.data : null, at: c && c.key === key ? c.at : 0, key, err: null, seq: wx.seq };
+  }
+  renderWeather();
+  if(Date.now() - wx.at < (force ? 60e3 : WX_TTL)) return;
+  const seq = ++wx.seq;
+  try{
+    let r;
+    try{ r = await fetch(wxUrl(p)); }catch(e){ throw new Error('Kunde inte nå Open-Meteo.'); }
+    if(!r.ok) throw new Error('Open-Meteo svarade med fel ' + r.status + '.');
+    const j = await r.json();
+    if(!j || !j.current || !j.hourly || !j.daily) throw new Error('Oväntat svar från Open-Meteo.');
+    if(seq !== wx.seq || wx.key !== key) return;
+    wx.data = j; wx.at = Date.now(); wx.err = null; wxWriteCache();
+  }catch(e){
+    if(seq !== wx.seq || wx.key !== key) return;
+    wx.err = e.message || 'Kunde inte hämta vädret.';
+  }
+  renderWeather();
+}
+function renderWeather(){
+  const el = document.getElementById('wx'); if(!el) return;
+  try{ paintWeather(el); }
+  catch(e){ el.innerHTML = `<div class="t"><b>${esc(store.weather.name)}</b></div><div class="errline">Vädret kunde inte visas.</div>`; }
+}
+function paintWeather(el){
+  const p = store.weather, j = wx.data;
+  const credit = `<div class="wxfoot"><a href="https://open-meteo.com/" target="_blank" rel="noopener">Väderdata: Open-Meteo.com</a>${j ? `<span>Uppdaterad ${esc(fmtClock(wx.at))}</span>` : ''}</div>`;
+  if(!j){
+    el.innerHTML = `<div class="t"><b>${esc(p.name)}</b></div>` +
+      (wx.err ? `<div class="errline">${esc(wx.err)}</div>` : '<div class="wait">Hämtar väder …</div>') + credit;
+    return;
+  }
+  const tz = j.timezone || TZ, c = j.current, h = j.hourly, d = j.daily;
+  const clock = t => new Date(t * 1000).toLocaleTimeString('sv-FI', { hour: '2-digit', minute: '2-digit', timeZone: tz });
+  const deg = (v, n) => v == null ? '–' : nf(v, n) + '°';
+
+  // timremsa: från innevarande timme och 24 timmar framåt
+  const nowS = Date.now() / 1000;
+  let i0 = h.time.findIndex(t => t + 3600 > nowS); if(i0 < 0) i0 = 0;
+  const hours = [];
+  for(let i = i0; i < Math.min(h.time.length, i0 + 25); i++){
+    const first = i === i0, pp = h.precipitation_probability ? h.precipitation_probability[i] : null;
+    const hh = new Date(h.time[i] * 1000).toLocaleTimeString('sv-FI', { hour: '2-digit', timeZone: tz });
+    hours.push(`<div class="wxh"><span class="tm">${first ? 'Nu' : esc(hh)}</span>${wxIcon(first ? c.weather_code : h.weather_code[i], first ? c.is_day : h.is_day[i], 28)}<span class="num">${deg(first ? c.temperature_2m : h.temperature_2m[i], 0)}</span><span class="pp num">${pp != null && pp >= 20 ? pp + ' %' : ''}</span></div>`);
+  }
+
+  // dagar
+  const lo = Math.min(...d.temperature_2m_min.filter(v => v != null)), hi = Math.max(...d.temperature_2m_max.filter(v => v != null));
+  const spanT = Math.max(1, hi - lo);
+  const days = d.time.map((t, i) => {
+    const dn = i === 0 ? 'Idag' : new Date(t * 1000).toLocaleDateString('sv-FI', { weekday: 'short', timeZone: tz }).replace('.', '');
+    const mn = d.temperature_2m_min[i], mx = d.temperature_2m_max[i], ps = d.precipitation_sum[i];
+    const bar = mn != null && mx != null ? `<i style="left:${((mn - lo) / spanT * 100).toFixed(1)}%;right:${((hi - mx) / spanT * 100).toFixed(1)}%"></i>` : '';
+    return `<div class="wxd"><span class="dn">${esc(dn.charAt(0).toUpperCase() + dn.slice(1))}</span>${wxIcon(d.weather_code[i], 1, 26)}<span class="pr num">${ps != null && ps >= 0.1 ? nf(ps, 1) + ' mm' : ''}</span><span class="lo num">${deg(mn, 0)}</span><span class="wxbar">${bar}</span><span class="hi num">${deg(mx, 0)}</span></div>`;
+  }).join('');
+
+  const sunTxt = d.sunrise && d.sunrise[0] ? `<span>Sol <b class="num">${esc(clock(d.sunrise[0]))}–${esc(clock(d.sunset[0]))}</b></span>` : '';
+  el.innerHTML = `
+    <div class="t"><b>${esc(p.name)}</b><span>${esc(wxText(c.weather_code))}</span></div>
+    <div class="wxnow">
+      <div>
+        <div class="wxtemp num">${nf(c.temperature_2m, 1)}<small>°C</small></div>
+        <div class="wxdesc">Känns som <b class="num">${deg(c.apparent_temperature, 0)}</b></div>
+      </div>
+      ${wxIcon(c.weather_code, c.is_day, 64)}
+    </div>
+    <div class="wxrest">
+      <span>Vind <b class="num">${nf(c.wind_speed_10m, 0)} m/s</b> ${esc(compass(c.wind_direction_10m))}${windArrow(c.wind_direction_10m)}</span>
+      <span>Byar <b class="num">${nf(c.wind_gusts_10m, 0)} m/s</b></span>
+      <span>Nederbörd <b class="num">${nf(c.precipitation, 1)} mm</b></span>
+      <span>Fukt <b class="num">${nf(c.relative_humidity_2m, 0)} %</b></span>
+      ${sunTxt}
+    </div>
+    ${wx.err ? `<div class="errline">${esc(wx.err)} Visar väder från ${esc(fmtTime(wx.at))}.</div>` : ''}
+    <div class="wxhours">${hours.join('')}</div>
+    <button class="wxmore" id="wxMore" type="button" aria-expanded="${!!store.wxDays}">Prognos ${d.time.length} dagar${I.chev}</button>
+    ${store.wxDays ? `<div class="wxdays">${days}</div>` : ''}
+    ${credit}`;
+  document.getElementById('wxMore').onclick = () => { store.wxDays = !store.wxDays; save(); renderWeather(); };
+}
+function openPlaceSheet(){
+  dlgBody.innerHTML = `<div class="grab"></div>
+    <div class="shead"><button class="navbtn" id="pBack" style="padding-left:4px">${I.back}<span style="margin-left:5px">Tillbaka</span></button><h2>Plats för väder</h2><span style="min-width:72px"></span></div>
+    <label class="search">${I.search}<input id="pQ" type="search" placeholder="Sök ort" autocomplete="off" enterkeyhint="search"></label>
+    <div id="pRes"></div>
+    <p class="gnote">Nu: ${esc(store.weather.name)}${store.weather.area ? ', ' + esc(store.weather.area) : ''}. Sökningen görs hos Open-Meteo.</p>`;
+  if(!dlg.open) openSheet(); else setTimeout(() => document.getElementById('pQ').focus(), 50);
+  document.getElementById('pBack').onclick = openGlobalSettings;
+  const q = document.getElementById('pQ'), res = document.getElementById('pRes');
+  let t = null, seq = 0, found = [];
+  q.oninput = () => {
+    clearTimeout(t);
+    const s = q.value.trim();
+    if(s.length < 2){ res.innerHTML = ''; return; }
+    t = setTimeout(async () => {
+      const my = ++seq;
+      try{
+        const r = await fetch(`${GEO_API}?${new URLSearchParams({ name: s, count: '8', language: 'sv', format: 'json' })}`);
+        if(!r.ok) throw new Error();
+        const j = await r.json();
+        if(my !== seq) return;
+        found = (j.results || []).filter(x => isFinite(x.latitude) && isFinite(x.longitude));
+        res.innerHTML = found.length
+          ? '<div class="group">' + found.map((x, i) => `<button class="grow pick" type="button" data-i="${i}">${esc(x.name)}<small>${esc([x.admin1, x.country].filter(Boolean).join(', '))}</small></button>`).join('') + '</div>'
+          : '<p class="gnote">Hittade ingen ort med det namnet.</p>';
+        res.querySelectorAll('[data-i]').forEach(b => b.onclick = () => {
+          const x = found[+b.dataset.i];
+          store.weather = { name: x.name, area: [x.admin1, x.country].filter(Boolean).join(', '), lat: x.latitude, lon: x.longitude };
+          save(); loadWeather(false); openGlobalSettings();
+        });
+      }catch(e){ if(my === seq) res.innerHTML = '<p class="err">Kunde inte söka. Kontrollera nätverket.</p>'; }
+    }, 300);
+  };
+}
+
 /* ---------- routing ---------- */
 function route(){
   clearInterval(timer); timer = null;
@@ -316,11 +566,12 @@ function route(){
 function startTimer(){
   if(store.refresh > 0) timer = setInterval(refreshNow, store.refresh * 60e3);
 }
-async function refreshNow(){
+// manual = användaren bad om det (knapp eller dra), då hämtas vädret även om cachen är färsk
+async function refreshNow(manual){
   if(busy) return;
   busy = true;
   const rb = document.getElementById('rbtn'); if(rb) rb.classList.add('spin');
-  try{ await (view.ch ? loadChannel(true) : loadListValues()); }
+  try{ await (view.ch ? loadChannel(true) : Promise.all([loadListValues(), loadWeather(manual === true)])); }
   finally{ busy = false; const r2 = document.getElementById('rbtn'); if(r2) r2.classList.remove('spin'); }
 }
 function navScroll(){ const n = document.querySelector('.nav'); if(n) n.classList.toggle('scrolled', window.scrollY > 40); }
@@ -340,6 +591,7 @@ function renderList(){
       <button class="navbtn" id="gset" aria-label="Inställningar">${I.gear}</button></div></div>
     <h1 class="large">Kanaler</h1>
     <div style="height:10px"></div>
+    <section class="wx" id="wx" aria-label="Väder"></section>
     ${store.channels.length ? cards : `
       <div class="empty">${I.wave}
         <h2>Inga kanaler ännu</h2>
@@ -351,12 +603,13 @@ function renderList(){
     ${store.channels.length ? `<button class="fab" id="fab" aria-label="Lägg till kanal">${I.plus}</button>` : ''}`;
   app.querySelectorAll('[data-open]').forEach(b => b.onclick = () => { location.hash = 'ch' + b.dataset.open; });
   document.getElementById('gset').onclick = openGlobalSettings;
-  document.getElementById('rbtn').onclick = refreshNow;
+  document.getElementById('rbtn').onclick = () => refreshNow(true);
   const fab = document.getElementById('fab'); if(fab) fab.onclick = openAddSheet;
   const ae = document.getElementById('addEmpty'); if(ae) ae.onclick = openAddSheet;
   const demo = document.getElementById('demo'); if(demo) demo.onclick = () => addChannel('9', '', '', null);
   navScroll();
   loadListValues();
+  loadWeather(false);
 }
 function openAddSheet(){
   dlgBody.innerHTML = `<div class="grab"></div>
@@ -701,6 +954,9 @@ function openGlobalSettings(){
     <div class="shead"><button class="navbtn" id="gCancel">Avbryt</button><h2>Inställningar</h2><button class="navbtn done" id="gSave">Klar</button></div>
     <div class="group"><div class="grow"><span>Uppdatera automatiskt</span><select id="gRef">${opts}</select></div></div>
     <p class="gnote">Appen hämtar också ny data varje gång du öppnar den.</p>
+    <div class="ghead">Väder</div>
+    <div class="group"><button class="grow link" id="gPlace" type="button"><span>Plats</span><em>${esc(store.weather.name)}</em><span class="ch">${I.chev}</span></button></div>
+    <p class="gnote">Prognosen kommer från Open-Meteo (MET Norways nordiska modell).</p>
     <div class="ghead">Säkerhetskopia</div>
     <div class="group">
       <button class="grow btnrow" id="gExp" type="button">Spara kopia av inställningarna</button>
@@ -710,6 +966,7 @@ function openGlobalSettings(){
   openSheet();
   document.getElementById('gCancel').onclick = () => dlg.close();
   document.getElementById('gSave').onclick = () => { store.refresh = +document.getElementById('gRef').value || 0; save(); dlg.close(); route(); };
+  document.getElementById('gPlace').onclick = openPlaceSheet;
   document.getElementById('gExp').onclick = exportSettings;
   document.getElementById('gImp').onclick = () => document.getElementById('importFile').click();
 }
@@ -731,6 +988,7 @@ document.getElementById('importFile').onchange = async e => {
     let added = 0;
     o.channels.forEach(c => { if(c && /^\d+$/.test(String(c.id))){ const ex = chById(c.id); if(ex) Object.assign(ex, c); else { store.channels.push(c); added++; } } });
     if(o.refresh != null) store.refresh = +o.refresh || 0;
+    const pl = cleanPlace(o.weather); if(pl) store.weather = pl;
     save(); dlg.close(); route();
     alert('Inställningarna är inlästa. ' + added + ' nya kanaler.');
   }catch(err){ alert('Filen kunde inte läsas. Välj en kopia som sparats från appen.'); }
@@ -752,7 +1010,7 @@ document.addEventListener('touchend', async () => {
   if(pY == null) return;
   const go = pD > 75; pY = null; pD = 0;
   ptr.style.opacity = ''; ptr.style.transform = ''; ptr.classList.remove('ready');
-  if(go && !busy){ ptr.classList.add('busy'); try{ await refreshNow(); } finally{ ptr.classList.remove('busy'); } }
+  if(go && !busy){ ptr.classList.add('busy'); try{ await refreshNow(true); } finally{ ptr.classList.remove('busy'); } }
 });
 
 /* ---------- start ---------- */
